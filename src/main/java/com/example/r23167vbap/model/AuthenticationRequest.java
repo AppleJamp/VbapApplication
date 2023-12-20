@@ -9,5 +9,5 @@ public class AuthenticationRequest {
     private String email;
 
     @NotBlank(message = "Password is mandatory")
-    private String password;
+    private String heslo;
 }

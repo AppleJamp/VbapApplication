@@ -36,19 +36,6 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String generateAccessTokenForPasswordReset(String email) {
-
-        int tokenExpirationMs = 1000 * 60 * 60 * 2; // 2 hour
-
-        Date expirationDate = new Date(System.currentTimeMillis() + tokenExpirationMs);
-
-        return Jwts.builder()
-                .setSubject(email)
-                .setExpiration(expirationDate)
-                .signWith(getSecretKey())
-                .compact();
-    }
-
     public Claims getClaimsFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey())

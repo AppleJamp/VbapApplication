@@ -53,24 +53,14 @@ public class SecurityConfiguration {
         });
 
 
-
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        request -> request.requestMatchers("/v1/accounts/registration", "/v1/accounts/authenticate", "/v1/donors/register").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/v1/accounts/current").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/v1/accounts/current/registered-runs").hasRole(Role.USER.name())
-                                .requestMatchers(HttpMethod.POST, "v1/accounts/password-reset/send-email").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/v1/accounts/password-reset/validate-token").permitAll()
-                                .requestMatchers(HttpMethod.PATCH, "/v1/accounts/password-reset").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/v1/accounts").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "/v1/people/register").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/v1/accounts/register").hasRole(Role.USER.name())
-                                .requestMatchers(HttpMethod.GET, "/v1/runs/active", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/v1/runs/{id}/qr-code").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/v1/runs/{id}").hasRole(Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.GET, "/v1/accounts/current/registered").hasRole(Role.USER.name())
-                                .requestMatchers(HttpMethod.OPTIONS, "/v1/**").permitAll()
-                                .anyRequest().hasRole(Role.ADMIN.name())
+                        request -> request.requestMatchers("/kniha", "/autor").hasRole(Role.USER.name())
+                                .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/uzivatel/authenticate", "/uzivatel/registration").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/**").hasAnyRole(Role.USER.name())
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAccessFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
