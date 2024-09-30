@@ -1,7 +1,6 @@
 package com.example.r23167vbap.service.impl;
 
-import com.example.r23167vbap.model.entity.Uzivatel;
-import com.example.r23167vbap.repository.UzivatelRepository;
+import com.example.r23167vbap.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,16 +14,16 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UzivatelRepository uzivatelRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        Uzivatel uzivatel = uzivatelRepository.findByEmail(email).orElseThrow(() ->  new RuntimeException("Špatné přihlašovací údaje"));
+        com.example.r23167vbap.model.entity.User user = userRepository.findByEmail(email).orElseThrow(() ->  new RuntimeException("Wrong user credentials"));
 
         return new User(
-                uzivatel.getEmail(),
-                uzivatel.getHeslo(),
-                new HashSet<>(Set.of(new SimpleGrantedAuthority("ROLE_" + uzivatel.getRole().name()))));
+                user.getEmail(),
+                user.getPassword(),
+                new HashSet<>(Set.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))));
     }
 }
 

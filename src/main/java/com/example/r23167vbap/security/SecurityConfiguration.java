@@ -55,9 +55,9 @@ public class SecurityConfiguration {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        request -> request.requestMatchers("/kniha", "/autor").hasRole(Role.USER.name())
+                        request -> request.requestMatchers("/book", "/author").hasRole(Role.USER.name())
                                 .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/uzivatel/authenticate", "/uzivatel/registration").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/user/authenticate", "/user/registration").permitAll()
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers("/**").hasAnyRole(Role.USER.name())
                                 .anyRequest().authenticated()
