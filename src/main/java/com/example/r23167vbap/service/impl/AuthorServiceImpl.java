@@ -1,5 +1,6 @@
 package com.example.r23167vbap.service.impl;
 
+import com.example.r23167vbap.exception.NotFoundException;
 import com.example.r23167vbap.model.dto.author.AuthorCreateDTO;
 import com.example.r23167vbap.model.dto.author.AuthorGetDTO;
 import com.example.r23167vbap.model.entity.Author;
@@ -28,7 +29,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorGetDTO update(UUID id, AuthorCreateDTO authorCreateDTO) {
-        Author author = authorRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Author with id: " + id + "wasn't found"));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author with id: " + id + "wasn't found"));
         modelMapper.map(authorCreateDTO, author);
 
         log.info("update({})", authorCreateDTO);
@@ -42,7 +43,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorGetDTO get(UUID id) {
-        return modelMapper.map(authorRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Author with id: " + id + "wasn't found")), AuthorGetDTO.class);
+        return modelMapper.map(authorRepository.findById(id).orElseThrow(() -> new NotFoundException("Author with id: " + id + "wasn't found")), AuthorGetDTO.class);
     }
 
     @Override

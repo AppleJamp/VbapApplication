@@ -1,5 +1,6 @@
 package com.example.r23167vbap.service.impl;
 
+import com.example.r23167vbap.exception.NotFoundException;
 import com.example.r23167vbap.model.dto.book.BookCreateDTO;
 import com.example.r23167vbap.model.dto.book.BookGetDTO;
 import com.example.r23167vbap.model.entity.Book;
@@ -28,7 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookGetDTO update(UUID id, BookCreateDTO bookCreateDTO) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book s id: " + id + " nebyla nalezena"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book with id: " + id + " not found"));
         modelMapper.map(bookCreateDTO, book);
 
         log.info("update({})", bookCreateDTO);
@@ -42,7 +43,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookGetDTO get(UUID id) {
-        return modelMapper.map(bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Book s id: " + id + " nebyla nalezena")), BookGetDTO.class);
+        return modelMapper.map(bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book with id: " + id + " not found")), BookGetDTO.class);
     }
 
     @Override

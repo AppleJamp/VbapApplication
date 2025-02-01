@@ -1,5 +1,8 @@
 package com.example.r23167vbap.service.impl;
 
+import com.example.r23167vbap.exception.NotFoundException;
+import com.example.r23167vbap.exception.ResourceAlreadyExistsException;
+import com.example.r23167vbap.exception.UnauthorizedException;
 import com.example.r23167vbap.model.entity.User;
 import com.example.r23167vbap.repository.UserRepository;
 import com.example.r23167vbap.service.UserService;
@@ -26,7 +29,7 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsByEmail(account.getEmail())) {
             return userRepository.save(account);
         }
-        throw new RuntimeException("Účet již existuje");
+        throw new ResourceAlreadyExistsException("Account with this email already exists: " + account.getEmail());
     }
 
     @Override
@@ -35,7 +38,7 @@ public class UserServiceImpl implements UserService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Wrong user credentials");
+            throw new UnauthorizedException("Wrong user credentials");
         }
 
         log.info("User with email '{}' successfully authenticated.", email);
@@ -45,6 +48,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getAccountByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User with this email not found: " + email));
+                .orElseThrow(() -> new NotFoundException("User with this email not found: " + email));
     }
 }

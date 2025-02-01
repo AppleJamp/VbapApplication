@@ -1,5 +1,6 @@
 package com.example.r23167vbap.service.impl;
 
+import com.example.r23167vbap.exception.UnauthorizedException;
 import com.example.r23167vbap.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        com.example.r23167vbap.model.entity.User user = userRepository.findByEmail(email).orElseThrow(() ->  new RuntimeException("Wrong user credentials"));
+        com.example.r23167vbap.model.entity.User user = userRepository.findByEmail(email).orElseThrow(() ->  new UnauthorizedException("Wrong user credentials"));
 
         return new User(
                 user.getEmail(),

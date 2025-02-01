@@ -29,7 +29,7 @@ public class AuthorController {
 
     @Operation(summary = "Create author",
             description = "Create author with given parameters",
-            responses = {
+                    responses = {
                     @ApiResponse(
                             responseCode = "201",
                             description = "Author was successfully created",
@@ -38,7 +38,7 @@ public class AuthorController {
             })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthorGetDTO createAutor(@Valid @RequestBody AuthorCreateDTO authorCreateDTO) {
+    public AuthorGetDTO createAuthor(@Valid @RequestBody AuthorCreateDTO authorCreateDTO) {
         return authorService.create(authorCreateDTO);
     }
 

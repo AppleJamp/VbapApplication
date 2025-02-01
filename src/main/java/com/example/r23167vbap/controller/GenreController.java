@@ -36,8 +36,8 @@ public class GenreController {
             })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GenreGetDTO createGenre(@Valid @RequestBody GenreCreateDTO zanrCreateDTO) {
-        return genreService.create(zanrCreateDTO);
+    public GenreGetDTO createGenre(@Valid @RequestBody GenreCreateDTO genreCreateDTO) {
+        return genreService.create(genreCreateDTO);
     }
 
     @Operation(summary = "Update genre",

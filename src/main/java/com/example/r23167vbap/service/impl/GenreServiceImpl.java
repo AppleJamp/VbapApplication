@@ -1,5 +1,6 @@
 package com.example.r23167vbap.service.impl;
 
+import com.example.r23167vbap.exception.NotFoundException;
 import com.example.r23167vbap.model.dto.genre.GenreCreateDTO;
 import com.example.r23167vbap.model.dto.genre.GenreGetDTO;
 import com.example.r23167vbap.model.entity.Genre;
@@ -28,7 +29,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public GenreGetDTO update(UUID id, GenreCreateDTO genreCreateDTO) {
-        Genre genre = genreRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Žánr s id: " + id + " nebyl nalezen"));
+        Genre genre = genreRepository.findById(id).orElseThrow(() -> new NotFoundException("Genre with id: " + id + " not found"));
         modelMapper.map(genreCreateDTO, genre);
 
         log.info("update({})", genreCreateDTO);
@@ -42,7 +43,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public GenreGetDTO get(UUID id) {
-        return modelMapper.map(genreRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Genre with id: " + id + " not found")), GenreGetDTO.class);
+        return modelMapper.map(genreRepository.findById(id).orElseThrow(() -> new NotFoundException("Genre with id: " + id + " not found")), GenreGetDTO.class);
     }
 
     @Override
